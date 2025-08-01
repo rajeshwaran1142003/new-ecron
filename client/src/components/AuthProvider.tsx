@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AuthService, type AuthUser } from '../lib/auth';
-import type { Session } from '@supabase/supabase-js';
 
 interface AuthContextType {
   user: AuthUser | null;
-  session: Session | null;
+  session: any | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, fullName?: string) => Promise<void>;
@@ -27,27 +26,20 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Get initial session and user
+    // TODO: Initialize authentication with your preferred solution
     const initializeAuth = async () => {
       try {
-        const { session } = await AuthService.getCurrentSession();
-        setSession(session);
-        
-        if (session?.user) {
-          const userWithProfile = await AuthService.getCurrentUser();
-          setUser(userWithProfile);
-          setIsAdmin(userWithProfile?.profile?.role === 'admin' || false);
-        } else {
-          setUser(null);
-          setIsAdmin(false);
-        }
+        // Placeholder - no authentication implemented
+        setUser(null);
+        setSession(null);
+        setIsAdmin(false);
       } catch (error) {
-        console.error('Auth initialization error:', error);
+        console.log('Auth initialization - no implementation');
         setUser(null);
         setSession(null);
         setIsAdmin(false);
@@ -58,106 +50,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     initializeAuth();
 
-    // Listen for auth changes
-    const { data: { subscription } } = AuthService.onAuthStateChange(async (event, session) => {
-      console.log('Auth state changed:', event, session?.user?.email);
-      
-      setSession(session);
-      
-      if (session?.user) {
-        const userWithProfile = await AuthService.getCurrentUser();
-        setUser(userWithProfile);
-        setIsAdmin(userWithProfile?.profile?.role === 'admin' || false);
-      } else {
-        setUser(null);
-        setIsAdmin(false);
-      }
-      
-      setLoading(false);
-    });
-    return () => subscription.unsubscribe();
+    // TODO: Set up auth state change listeners with your auth solution
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
-    
-    try {
-      const { error } = await AuthService.signIn({ email, password });
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      setLoading(false);
-      throw error;
-    }
+    console.log('signIn called - implement with your auth solution');
+    // TODO: Implement with your authentication solution
+    throw new Error('Authentication not implemented');
   };
 
   const signUp = async (email: string, password: string, fullName?: string) => {
-    setLoading(true);
-    
-    try {
-      const { error } = await AuthService.signUp({ 
-        email, 
-        password, 
-        fullName,
-        role: 'user' 
-      });
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      setLoading(false);
-      throw error;
-    }
+    console.log('signUp called - implement with your auth solution');
+    // TODO: Implement with your authentication solution
+    throw new Error('Authentication not implemented');
   };
 
   const signOut = async () => {
-    setLoading(true);
-    
-    try {
-      const { error } = await AuthService.signOut();
-      
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      setLoading(false);
-      throw error;
-    }
+    console.log('signOut called - implement with your auth solution');
+    // TODO: Implement with your authentication solution
+    throw new Error('Authentication not implemented');
   };
 
   const updateProfile = async (updates: { full_name?: string; avatar_url?: string }) => {
-    try {
-      const { error } = await AuthService.updateProfile(updates);
-      
-      if (error) {
-        throw error;
-      }
-      
-      // Refresh user data
-      const updatedUser = await AuthService.getCurrentUser();
-      setUser(updatedUser);
-    } catch (error) {
-      throw error;
-    }
+    console.log('updateProfile called - implement with your auth solution');
+    // TODO: Implement with your authentication solution
+    throw new Error('Authentication not implemented');
   };
 
   const resetPassword = async (email: string) => {
-    try {
-      const { error } = await AuthService.resetPassword(email);
-      
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      throw error;
-    }
+    console.log('resetPassword called - implement with your auth solution');
+    // TODO: Implement with your authentication solution
+    throw new Error('Authentication not implemented');
   };
 
   const hasRole = (role: 'user' | 'admin' | 'instructor'): boolean => {
-    return user?.profile?.role === role || false;
+    // TODO: Implement with your authentication solution
+    return false;
   };
     
 

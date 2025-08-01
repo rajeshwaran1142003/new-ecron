@@ -1,9 +1,9 @@
 # Data Integration Documentation
 
 ## Overview
-This document outlines the integration points for user forms and data storage for the Ecron Technologies website.
+This document outlines the data integration requirements for the Ecron Technologies website.
 
-**Note: Supabase integration has been removed. Please implement your preferred data storage solution.**
+**Note: Database integration has been removed. Please implement your preferred data storage solution.**
 
 ## Forms That Need Data Integration
 
@@ -34,7 +34,7 @@ This document outlines the integration points for user forms and data storage fo
 
 ## Required Database Schema
 
-All forms will need corresponding database tables with the fields listed above, plus:
+All forms will need corresponding database tables or API endpoints with the fields listed above, plus:
 - UUID primary keys (except newsletter which can use email as PK)
 - `created_at` timestamp fields
 - Appropriate data validation
@@ -49,8 +49,8 @@ The AuthProvider component is currently a placeholder. You'll need to:
 
 ## Next Steps
 
-1. Choose your preferred database solution (PostgreSQL, MySQL, MongoDB, etc.)
-2. Set up your database schema based on the forms above
+1. Choose your preferred database/API solution (PostgreSQL, MySQL, MongoDB, Firebase, etc.)
+2. Set up your database schema or API endpoints based on the forms above
 3. Implement API endpoints for form submissions
 4. Replace placeholder functions in `client/src/lib/supabaseClient.ts`
 5. Configure authentication system in `client/src/components/AuthProvider.tsx`
@@ -60,15 +60,12 @@ The AuthProvider component is currently a placeholder. You'll need to:
 
 ## Files That Need Implementation
 
-- `client/src/lib/supabaseClient.ts` - Replace all functions with your API calls
+- `client/src/lib/supabaseClient.ts` - Replace all placeholder functions with your API calls
 - `client/src/components/AuthProvider.tsx` - Implement authentication
 - `client/src/lib/newsletter.ts` - Implement newsletter subscription logic
+- `server/routes.ts` - Currently uses in-memory storage, replace with your database
 
 ## Environment Variables to Configure
-
-Remove these Supabase variables and add your own:
-- ~~VITE_SUPABASE_URL~~
-- ~~VITE_SUPABASE_ANON_KEY~~
 
 Add variables for your chosen solution:
 - DATABASE_URL (or similar)
